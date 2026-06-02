@@ -1,14 +1,15 @@
-import { Alert } from "@mui/material"
+import { Alert } from "@mui/material";
+import { useNotification } from "../hooks/store";
 
-const Notification = ({ message }) => {
-  if(message.error){
-    return( <Alert severity="error" >{message.error}</Alert> )
+const Notification = () => {
+  const notification = useNotification();
+  if (notification.error) {
+    return <Alert severity="error">{notification.error}</Alert>;
   }
-  if(message.success){
-    return( <Alert severity="success" >{message.success}</Alert> )
+  if (notification.success) {
+    return <Alert severity="success">{notification.success}</Alert>;
   }
-  return <Alert severity="info" >{null}</Alert>
-}
+  return <Alert severity="info">{null}</Alert>;
+};
 
-
-export default Notification
+export default Notification;
