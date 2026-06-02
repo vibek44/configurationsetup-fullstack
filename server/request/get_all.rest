@@ -1,0 +1,50 @@
+
+GET http://localhost:3003/api/Blogs
+
+
+###
+GET http://localhost:3003/api/users
+ 
+### 
+PUT http://localhost:3003/api/blogs/69f84471082d2ada977bc0bd  
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImJoaW0xMjMiLCJpZCI6IjY5Zjg0NmZiNTk5NWJmNjZiNzIxMTc3MyIsImlhdCI6MTc3ODIzMDE0MywiZXhwIjoxNzc4MjMzNzQzfQ.zbd7C6A_e8hw5ERNDVHeHzjk4RZNb7t-qWdj1SjGAzk
+
+{   "title": "Go Set a Watchman", 
+    "author": "Harper lee",
+    "url":"https://www.bibliofreak.net/2016/08/review-go-set-watchman-by-harper-lee.html",
+    "likes":200
+}
+
+
+### 
+GET http://localhost:3003/api/blogs/69e856922f6fa2f182814a78
+
+### 
+DELETE http://localhost:3003/api/blogs/69f8435a082d2ada977bc0bc
+
+
+###
+POST http://localhost:3003/api/blogs  HTTP/1.1 
+Content-Type: application/json
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImFub255bW91czEyMyIsImlkIjoiNmEwOTZiODM1MzQwNTI3ZjAyOWIyOWY2IiwiaWF0IjoxNzc5MDE5NzA4LCJleHAiOjE3NzkwMjMzMDh9.bqu7UWTl6Jf_Px8hWU6CRsF8h0unSu3zX9YDJHFD9s4
+
+{   "title": "Go Set a Watchman", 
+    "author": "Harper lee",
+    "url":"https://www.bibliofreak.net/2016/08/review-go-set-watchman-by-harper-lee.html",
+    "likes":9
+}
+
+###
+POST http://localhost:3003/api/login  HTTP/1.1
+Content-Type: application/json
+
+{   "userName": "bhim123",
+    "password": "bhim123" 
+}
+
+###
+DELETE http://localhost:3003/api/blogs/ HTTP/1.1 
+//Content-Type: application/json
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6ImJoaW0xMjMiLCJpZCI6IjZhMDk2YjVjNTM0MDUyN2YwMjliMjlmNSIsImlhdCI6MTc3OTAzNzIxOCwiZXhwIjoxNzc5MDQwODE4fQ.thrsDz0OdjNVbkSuzlWG5WwFHugxxLuyz19LF-VXMc8
+
