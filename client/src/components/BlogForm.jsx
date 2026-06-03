@@ -1,55 +1,73 @@
-import {  useState } from 'react'
-import { TextField, Button, Stack } from '@mui/material'
+import { useState } from "react";
+import { TextField, Button, Stack } from "@mui/material";
+import { useNotificationActions, useBlogActions } from "../hooks/store";
+import { useNavigate } from "react-router-dom";
 
+const BlogForm = (props) => {
+  const navigate = useNavigate();
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [url, setUrl] = useState("");
 
-const BlogForm = ({ handleBlogForm }) => {
-  const [title,setTitle]=useState('')
-  const [author,setAuthor]=useState('')
-  const [url,setUrl]=useState('')
-  const handleFormInput = (e) => {
-    e.preventDefault()
-    handleBlogForm({ title,author,url })
-  }
-  return(
+  const { setError } = useNotificationActions();
+  const { addBlog } = useBlogActions();
+  const handleFormInput = async (e) => {
+    e.preventDefault();
+    if (!title || !author || !url) {
+      setError("title,author or url missing!");
+      setTimeout(() => {
+        setError();
+      }, 3000);
+      return;
+    }
+    //props.ref.current.toggleVisibility();
+    await addBlog({ title, author, url });
+    navigate("/");
+  };
+  return (
     <>
-       <h3>Create a blog</h3>
-      <form  onSubmit={handleFormInput}style={{ width:'20em' }}>
-      <Stack   spacing={3} >
-          
+      <h3>Create a blog</h3>
+      <form onSubmit={handleFormInput} style={{ width: "20em" }}>
+        <Stack spacing={3}>
           <TextField
-            size='small'
-            variant='outlined'
-            label='title'
-            type='text'
+            size="small"
+            variant="outlined"
+            label="title"
+            type="text"
             value={title}
             onChange={({ target }) => setTitle(target.value.trim())}
           />
-        
-          <TextField 
-            size='small'
-            variant='outlined'
-            label='author'
-            type='text'
+
+          <TextField
+            size="small"
+            variant="outlined"
+            label="author"
+            type="text"
             value={author}
             onChange={({ target }) => setAuthor(target.value.trim())}
           />
-         
-            <TextField 
-              size='small'
-              variant='outlined'
-              label='url'
-              type='text'
-              value={url}
-              onChange={({ target }) => setUrl(target.value.trim())}
-            />
-          
-            <Button type="submit" variant='contained' size='small' sx={{width:'7em'}} >create</Button>
-                   
-        </Stack>
-      </form >
-    </>
-    
-  )
-}
 
-export default BlogForm
+          <TextField
+            size="small"
+            variant="outlined"
+            label="url"
+            type="text"
+            value={url}
+            onChange={({ target }) => setUrl(target.value.trim())}
+          />
+
+          <Button
+            type="submit"
+            variant="contained"
+            size="small"
+            sx={{ width: "7em" }}
+          >
+            create
+          </Button>
+        </Stack>
+      </form>
+    </>
+  );
+};
+
+export default BlogForm;
