@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import blogService from "../services/blogs";
 import loginService from "../services/login";
+import { setUser, removeUser } from "../services/persistentUser";
 
 const useNotificationStore = create((set, get) => ({
   notification: {
@@ -23,13 +24,16 @@ export const useNotificationActions = () =>
 const useUserStore = create((set, get) => ({
   user: null,
   actions: {
-    setUser: (user) => set(() => ({ user })),
+    setUserStore: (user) =>
+      set(() => ({
+        user,
+      })),
     handleLogin: async (userlog) => {
       try {
         const user = await loginService.login(userlog);
         set(() => ({ user }));
         blogService.setToken(user.token);
-        localStorage.setItem("userJson", JSON.stringify(user));
+        setUser(user);
         return user;
       } catch (error) {
         useNotificationStore
@@ -39,6 +43,11 @@ const useUserStore = create((set, get) => ({
           useNotificationStore.getState().actions.setError();
         }, 3000);
       }
+    },
+    handleLogout: () => {
+      set(() => ({ user: null }));
+      blogService.setToken("not-allowed");
+      removeUser();
     },
   },
 }));
@@ -52,7 +61,6 @@ const useBlogStore = create((set, get) => ({
     initialize: async () => {
       try {
         const blogs = await blogService.getAll();
-        console.log(blogs);
         set((state) => ({ blogs }));
       } catch (error) {
         set(() => ({ blogs: undefined }));
