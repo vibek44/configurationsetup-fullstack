@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
-import { Card, Typography, Stack, Button } from "@mui/material";
+import { Card, Typography, Stack, Button, TextField } from "@mui/material";
 import { useBlog, useUser } from "../hooks/store";
 import { useMatch } from "react-router-dom";
 import PageNotFound from "./PageNotFound";
 import { useBlogActions } from "../hooks/store";
 import { useNavigate } from "react-router-dom";
+import CommentForm from "./CommentForm";
 
 const Blog = () => {
   const user = useUser();
@@ -44,7 +45,7 @@ const Blog = () => {
           {blog.url}
         </Link>
         <Typography>
-          likes:{blog.likes}{" "}
+          likes:{blog.likes}
           {user && (
             <Button
               variant="outlined"
@@ -67,9 +68,19 @@ const Blog = () => {
           )}
         </Typography>
         <Typography variant="subtitle1 ">
-          {" "}
-          Created by {blog.user.userName}{" "}
+          Created by {blog.user.userName}
         </Typography>
+        <div>
+          <h3>Comments</h3>
+          {user && <CommentForm blogId={blog.id} />}
+          <ul>
+            {blog.comments.map((comment, index) => (
+              <li key={index} style={{ fontFamily: "sans-serif" }}>
+                {comment}
+              </li>
+            ))}
+          </ul>
+        </div>
       </Stack>
     </Card>
   );
