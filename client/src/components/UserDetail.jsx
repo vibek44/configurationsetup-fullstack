@@ -8,7 +8,7 @@ const UserDetail = () => {
   if (!user) return null;
   return (
     <>
-      <h2>{user.name}</h2>
+      <h2>{user.name.charAt(0).toUpperCase() + user.name.slice(1)}</h2>
       <b>Added Blogs</b>
       <ul>
         {user.blogs.map((ele) => (
