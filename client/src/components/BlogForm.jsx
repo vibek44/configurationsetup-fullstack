@@ -1,27 +1,26 @@
-import { useState } from "react";
+import { useField } from "../hooks/useField";
 import { TextField, Button, Stack } from "@mui/material";
 import { useNotificationActions, useBlogActions } from "../hooks/store";
 import { useNavigate } from "react-router-dom";
 
-const BlogForm = (props) => {
+const BlogForm = () => {
   const navigate = useNavigate();
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("");
+  const title = useField("text", "title", "small", "outlined");
+  const author = useField("text", "author", "small", "outlined");
+  const url = useField("text", "url", "small", "outlined");
 
   const { setError } = useNotificationActions();
   const { addBlog } = useBlogActions();
   const handleFormInput = async (e) => {
     e.preventDefault();
-    if (!title || !author || !url) {
+    if (!title.value || !author.value || !url.value) {
       setError("title,author or url missing!");
       setTimeout(() => {
         setError();
       }, 3000);
       return;
     }
-    //props.ref.current.toggleVisibility();
-    await addBlog({ title, author, url });
+    await addBlog({ title: title.value, author: author.value, url: url.value });
     navigate("/");
   };
   return (
@@ -29,32 +28,11 @@ const BlogForm = (props) => {
       <h3>Create a blog</h3>
       <form onSubmit={handleFormInput} style={{ width: "20em" }}>
         <Stack spacing={3}>
-          <TextField
-            size="small"
-            variant="outlined"
-            label="title"
-            type="text"
-            value={title}
-            onChange={({ target }) => setTitle(target.value.trim())}
-          />
+          <TextField {...title} />
 
-          <TextField
-            size="small"
-            variant="outlined"
-            label="author"
-            type="text"
-            value={author}
-            onChange={({ target }) => setAuthor(target.value.trim())}
-          />
+          <TextField {...author} />
 
-          <TextField
-            size="small"
-            variant="outlined"
-            label="url"
-            type="text"
-            value={url}
-            onChange={({ target }) => setUrl(target.value.trim())}
-          />
+          <TextField {...url} />
 
           <Button
             type="submit"
