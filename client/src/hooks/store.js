@@ -117,6 +117,21 @@ const useBlogStore = create((set, get) => ({
         }, 3000);
       }
     },
+    addComment: async (comment, blogId) => {
+      try {
+        const blog = await blogService.createComment(comment, blogId);
+        set((state) => ({
+          blogs: state.blogs.map((ele) => (ele.id !== blog.id ? ele : blog)),
+        }));
+      } catch (error) {
+        useNotificationStore
+          .getState()
+          .actions.setError(error?.response?.data?.error);
+        setTimeout(() => {
+          useNotificationStore.getState().actions.setError();
+        }, 3000);
+      }
+    },
   },
 }));
 
